@@ -3,6 +3,7 @@ import json
 from twitter_client import Tweet
 import time
 from config import *
+from tweepy.error import TweepError
 
 
 class HNTweetService():
@@ -40,11 +41,14 @@ class HNTweetService():
             if id not in self.tweeted_ids:
                 content = self.get_item_content(id)
                 tweet_msg = self.construct_tweet(content)
-                self.twitter.send_tweet(tweet_msg)
+                try:
+                    self.twitter.send_tweet(tweet_msg)
+                    print 'tweeted ' + tweet_msg
+                    print 'Waiting for 1 minute...'
+                    time.sleep(60)
+                except TweepError:
+                    pass
                 self.tweeted_ids.append(id)
-                print 'tweeted ' + tweet_msg
-                print 'Waiting for 1 minute...'
-                time.sleep(60)
             else:
                 print 'already tweeted'
 
