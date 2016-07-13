@@ -3,26 +3,13 @@ import json
 from twitter_client import Tweet
 import time
 from config import *
-import csv
 
 
 class HNTweetService():
     def __init__(self):
         self.tweeted_ids = []
-        self.get_csv()
         self.twitter = Tweet()
         print 'HN Service initiated!'
-
-    def get_csv(self):
-        with open('tweeted_ids.csv', 'rb') as csv_file:
-            data = csv.reader(csv_file)
-            for row in data:
-                self.tweeted_ids.append(row[0])
-
-    def csv_append(self, id):
-        with open('tweeted_ids.csv', 'w') as csv_file:
-            writer = csv.writer(csv_file)
-            writer.writerow([id])
 
     @staticmethod
     def get_top_story_ids():
@@ -54,8 +41,7 @@ class HNTweetService():
                 content = self.get_item_content(id)
                 tweet_msg = self.construct_tweet(content)
                 self.twitter.send_tweet(tweet_msg)
-                self.csv_append(id)
-                self.get_csv()
+                self.tweeted_ids.append(id)
                 print 'tweeted ' + tweet_msg
                 print 'Waiting for 1 minute...'
                 time.sleep(60)
