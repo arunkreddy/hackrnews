@@ -55,5 +55,5 @@ class HNTweetService():
 hts = HNTweetService()
 while True:
     hts.tweet_posts()
-    print 'waiting for ' + UPDATE_INTERVAL + ' seconds'
+    print 'waiting for ' + str(UPDATE_INTERVAL) + ' seconds'
     time.sleep(UPDATE_INTERVAL)
