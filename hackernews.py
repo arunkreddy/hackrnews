@@ -43,7 +43,7 @@ class HNTweetService():
                 tweet_msg = self.construct_tweet(content)
                 try:
                     self.twitter.send_tweet(tweet_msg)
-                    print 'tweeted ' + tweet_msg
+                    print 'tweeted ' + content['title']
                     print 'Waiting for 1 minute...'
                     time.sleep(60)
                 except TweepError:
