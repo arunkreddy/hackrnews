@@ -22,7 +22,7 @@ class HNTweetService():
         response = requests.get(
             'https://hacker-news.firebaseio.com/v0/topstories.json'
         )
-        return json.loads(response.content)[:15]
+        return json.loads(response.content)[:10]
 
     @staticmethod
     def get_item_content(id):
@@ -47,12 +47,12 @@ class HNTweetService():
                 content = self.get_item_content(id)
                 tweet_msg = self.construct_tweet(content)
                 try:
-                    # self.twitter.send_tweet(tweet_msg)
-                    print 'tweeted ' + content['title'].decode('ascii', 'ignore')
+                    self.twitter.send_tweet(tweet_msg)
+                    print 'tweeted ' + content['title']
                     print 'Waiting for 1 minute...'
-                    time.sleep(1)
+                    time.sleep(60)
                 except TweepError:
-                    time.sleep(1)
+                    time.sleep(60)
                     pass
                 self.tweeted_ids.append(id)
             else:
