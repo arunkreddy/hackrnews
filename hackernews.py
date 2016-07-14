@@ -4,6 +4,11 @@ from twitter_client import Tweet
 import time
 from config import *
 from tweepy.error import TweepError
+import sys
+
+
+reload(sys)
+sys.setdefaultencoding("utf8")
 
 
 class HNTweetService():
@@ -17,7 +22,7 @@ class HNTweetService():
         response = requests.get(
             'https://hacker-news.firebaseio.com/v0/topstories.json'
         )
-        return json.loads(response.content)[:5]
+        return json.loads(response.content)[:15]
 
     @staticmethod
     def get_item_content(id):
@@ -42,11 +47,12 @@ class HNTweetService():
                 content = self.get_item_content(id)
                 tweet_msg = self.construct_tweet(content)
                 try:
-                    self.twitter.send_tweet(tweet_msg)
-                    print 'tweeted ' + content['title']
+                    # self.twitter.send_tweet(tweet_msg)
+                    print 'tweeted ' + content['title'].decode('ascii', 'ignore')
                     print 'Waiting for 1 minute...'
-                    time.sleep(60)
+                    time.sleep(1)
                 except TweepError:
+                    time.sleep(1)
                     pass
                 self.tweeted_ids.append(id)
             else:
