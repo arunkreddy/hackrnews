@@ -51,7 +51,7 @@ class HNTweetService():
                     print 'Waiting for 1 minute...'
                     time.sleep(60)
                 except:
-                    print time.ctime + ' TWTR: already tweeted'
+                    print time.ctime() + ' TWTR: already tweeted'
                     time.sleep(60)
                     pass
                 self.tweeted_ids.append(id)
